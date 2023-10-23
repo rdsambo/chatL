@@ -47,8 +47,10 @@ export default function Home() {
         });
       } else {
         // navigate("/login", { replace: true });
-        const email = Liferay.ThemeDisplay.getUserEmailAddress();
-        const password = Liferay.ThemeDisplay.getUserId();
+        const email = 'getUserEmailAddress@gmail.com';
+        const password = 'userid';
+        // const email = Liferay.ThemeDisplay.getUserEmailAddress();
+        // const password = Liferay.ThemeDisplay.getUserId();
         signInWithUser(email, password);
       }
     });
@@ -56,9 +58,12 @@ export default function Home() {
   }, [navigate]);
   
   const createUser = () => {
-    const email = Liferay.ThemeDisplay.getUserEmailAddress();
-    const password = Liferay.ThemeDisplay.getUserId();
-    const userName = Liferay.ThemeDisplay.getUserName();
+    const email = 'getUserEmailAddress@gmail.com';
+    const password = 'userid';
+    const userName = 'User Name';
+    // const email = Liferay.ThemeDisplay.getUserEmailAddress();
+    // const password = Liferay.ThemeDisplay.getUserId();
+    // const userName = Liferay.ThemeDisplay.getUserName();
     const userNameS = userName.split(' ');
     const fName = userNameS[0];
     let lName = "";
