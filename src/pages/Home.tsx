@@ -15,6 +15,7 @@ import {
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../core/firebaseConfig";
+import Cookies from 'js-cookie';
 import LeftSide from "../components/LeftSide";
 import { User } from "../core/types";
 import RightSide from "../components/RightSide";
@@ -47,8 +48,10 @@ export default function Home() {
         });
       } else {
         // navigate("/login", { replace: true });
-        const email = 'getUserEmailAddress@gmail.com';
-        const password = 'userid';
+        let email = Cookies.get("email");
+        let password = Cookies.get("userid");
+        if(email){} else email = "";
+        if(password){} else password = "";
         // const email = Liferay.ThemeDisplay.getUserEmailAddress();
         // const password = Liferay.ThemeDisplay.getUserId();
         signInWithUser(email, password);
@@ -58,9 +61,14 @@ export default function Home() {
   }, [navigate]);
   
   const createUser = () => {
-    const email = 'getUserEmailAddress@gmail.com';
-    const password = 'userid';
-    const userName = 'User Name';
+    let email = Cookies.get("email");
+    let password = Cookies.get("userid");
+    if(email){} else email = "";
+    if(password){} else password = "";
+    // const email = 'getUserEmailAddress@gmail.com';
+    // const password = 'userid';
+    let userName = Cookies.get("username");
+    if(userName){} else userName = "";
     // const email = Liferay.ThemeDisplay.getUserEmailAddress();
     // const password = Liferay.ThemeDisplay.getUserId();
     // const userName = Liferay.ThemeDisplay.getUserName();
@@ -70,9 +78,10 @@ export default function Home() {
     if (userNameS[1]) {
       lName = userName.replace(userNameS[0], '');
     }
-    const birthday = ""; 
+    const birthday = "";
     createUserWithEmailAndPassword(auth, email, password)
     .then((user) => {
+      if(email){} else email = "";
       const userData = {
         fName,
         lName,
