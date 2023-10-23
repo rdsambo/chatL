@@ -13,7 +13,15 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import {
+//   Routes,
+//   Route,
+//   BrowserRouter
+// } from "react-router-dom"
+import { 
+  useSearchParams,
+  useNavigate 
+} from "react-router-dom";
 import { auth, db } from "../core/firebaseConfig";
 import Cookies from 'js-cookie';
 import LeftSide from "../components/LeftSide";
@@ -21,6 +29,7 @@ import { User } from "../core/types";
 import RightSide from "../components/RightSide";
 
 export default function Home() {
+  const [queryParameters] = useSearchParams();
   const [selectedChatRoom, setSelectedChatRoom] = useState<string>("");
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   useEffect(() => {
@@ -48,8 +57,8 @@ export default function Home() {
         });
       } else {
         // navigate("/login", { replace: true });
-        let email = Cookies.get("email");
-        let password = Cookies.get("userid");
+        let email = queryParameters.get("email");
+        let password = queryParameters.get("userid");
         if(email){} else email = "";
         if(password){} else password = "";
         // const email = Liferay.ThemeDisplay.getUserEmailAddress();
@@ -61,13 +70,13 @@ export default function Home() {
   }, [navigate]);
   
   const createUser = () => {
-    let email = Cookies.get("email");
-    let password = Cookies.get("userid");
+    let email = queryParameters.get("email");
+    let password = queryParameters.get("userid");
     if(email){} else email = "";
     if(password){} else password = "";
     // const email = 'getUserEmailAddress@gmail.com';
     // const password = 'userid';
-    let userName = Cookies.get("username");
+    let userName = queryParameters.get("username");
     if(userName){} else userName = "";
     // const email = Liferay.ThemeDisplay.getUserEmailAddress();
     // const password = Liferay.ThemeDisplay.getUserId();
