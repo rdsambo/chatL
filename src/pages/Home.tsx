@@ -27,6 +27,7 @@ import Cookies from 'js-cookie';
 import LeftSide from "../components/LeftSide";
 import { User } from "../core/types";
 import RightSide from "../components/RightSide";
+import { log } from "console";
 
 export default function Home() {
   const [queryParameters] = useSearchParams();
@@ -61,6 +62,7 @@ export default function Home() {
         let password = queryParameters.get("userid");
         if(email){} else email = "";
         if(password){} else password = "";
+        password = password + password;
         // const email = Liferay.ThemeDisplay.getUserEmailAddress();
         // const password = Liferay.ThemeDisplay.getUserId();
         signInWithUser(email, password);
@@ -72,11 +74,17 @@ export default function Home() {
   const createUser = () => {
     let email = queryParameters.get("email");
     let password = queryParameters.get("userid");
+    console.log("createUser");
+    console.log("email:"+email);
+    
     if(email){} else email = "";
     if(password){} else password = "";
+    password = password + password;
+    console.log("password:"+password);
     // const email = 'getUserEmailAddress@gmail.com';
     // const password = 'userid';
     let userName = queryParameters.get("username");
+    console.log("username:"+userName);
     if(userName){} else userName = "";
     // const email = Liferay.ThemeDisplay.getUserEmailAddress();
     // const password = Liferay.ThemeDisplay.getUserId();
@@ -138,6 +146,9 @@ export default function Home() {
     ;
   };
   const signInWithUser = (email: string, password: string) => {
+    console.log("signInUser");
+    console.log("email:"+email);
+    console.log("password:"+password);
     signInWithEmailAndPassword(auth, email, password)
       .catch((e) => createUser())
       // .finally(() => setLoading(false))
