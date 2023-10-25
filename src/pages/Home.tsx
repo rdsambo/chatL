@@ -4,14 +4,15 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import {
-  addDoc,
-  collection,
+  // addDoc,
+  // collection,
   doc,
-  serverTimestamp,
+  // serverTimestamp,
   getDoc,
   setDoc,
-  updateDoc,
+  // updateDoc,
 } from "firebase/firestore";
+import { signOut } from "firebase/auth";
 import { useEffect, useState } from "react";
 // import {
 //   Routes,
@@ -20,14 +21,12 @@ import { useEffect, useState } from "react";
 // } from "react-router-dom"
 import { 
   useSearchParams,
-  useNavigate 
+  // useNavigate 
 } from "react-router-dom";
 import { auth, db } from "../core/firebaseConfig";
-import Cookies from 'js-cookie';
 import LeftSide from "../components/LeftSide";
 import { User } from "../core/types";
 import RightSide from "../components/RightSide";
-import { log } from "console";
 
 export default function Home() {
   const [queryParameters] = useSearchParams();
@@ -42,56 +41,60 @@ export default function Home() {
   }, []);
   const [user, setUser] = useState<User>();
   const [openChat, setOpenChat] = useState(true);
-  const navigate = useNavigate();
+  const [canLogin, setCanLogin] = useState(false);
+
   useEffect(() => {
-    const unsub = onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        getDoc(doc(db, "users", currentUser.uid)).then((res) => {
-          setUser({
-            uid: currentUser.uid,
-            email: currentUser.email,
-            birthday: res.data()?.birthday,
-            fName: res.data()?.fName,
-            lName: res.data()?.lName,
-            picture: res.data()?.picture,
-          });
-        });
-      } else {
-        // navigate("/login", { replace: true });
-        let email = queryParameters.get("email");
-        let password = queryParameters.get("userid");
-        if(email){} else email = "";
-        if(password){} else password = "";
-        password = password + password;
-        // const email = Liferay.ThemeDisplay.getUserEmailAddress();
-        // const password = Liferay.ThemeDisplay.getUserId();
-        signInWithUser(email, password);
-      }
-    });
-    return unsub;
-  }, [navigate]);
-  
-  const createUser = () => {
-    let email = queryParameters.get("email");
-    let password = queryParameters.get("userid");
-    console.log("createUser");
-    console.log("email:"+email);
+    console.log('effect');
+      let email = 'NewOne3EmailAddress@gmail.com';
+      let password = 'userid';
+      // let email = queryParameters.get("email");
+      // let password = queryParameters.get("userid");
+      if(email){} else email = "";
+      if(password){} else password = "";
+      password = password + password;
+      // const email = Liferay.ThemeDisplay.getUserEmailAddress();
+      // const password = Liferay.ThemeDisplay.getUserId();
+      
+      console.log('email');
+      console.log(email);
+      console.log('password');
+      console.log(password);
+      signOut(auth);
+
+      signInWithEmailAndPassword(auth, email, password)
+      .then(() => loadUser())
+      .catch((e) => 
+      {
+        console.log('e');
+        console.log(typeof e);
+        console.log(JSON.stringify(e));
+        if(e.code === 'auth/user-not-found' )
+        {
+          createUser(email, password);
+        }
+      });
+  }, [canLogin]);
+
+  const createUser = (email: string, password: string) => {
+    // let email = 'getUserEmailAddress@gmail.com';
+    // let password = 'userid';
+    let userName = 'username afdfs';
+    // let email = queryParameters.get("email");
+    // let password = queryParameters.get("userid");
+    // let userName = queryParameters.get("username");
+    // console.log("createUser");
+    // console.log("email:"+email);
     
-    if(email){} else email = "";
-    if(password){} else password = "";
-    password = password + password;
-    console.log("password:"+password);
-    // const email = 'getUserEmailAddress@gmail.com';
-    // const password = 'userid';
-    let userName = queryParameters.get("username");
-    console.log("username:"+userName);
+    // if(email){} else email = "";
+    // if(password){} else password = "";
+    // password = password + password;
     if(userName){} else userName = "";
     // const email = Liferay.ThemeDisplay.getUserEmailAddress();
     // const password = Liferay.ThemeDisplay.getUserId();
     // const userName = Liferay.ThemeDisplay.getUserName();
     const userNameS = userName.split(' ');
     const fName = userNameS[0];
-    let lName = "";
+    let lName = " ";
     if (userNameS[1]) {
       lName = userName.replace(userNameS[0], '');
     }
@@ -114,46 +117,59 @@ export default function Home() {
         ],
       };
       setDoc(doc(db, "users", user.user.uid), userData);
-      addDoc(collection(db, "chats"), {
-        createdAt: serverTimestamp(),
-        lastMessage: "",
-        updatedAt: serverTimestamp(),
-        userIds: [user.user.uid, "rmbJQucAbjQvll9pV341OB8hxnx2"],
-        id: "",
-      }).then((docRef) => {
-        updateDoc(doc(db, "chats", docRef.id), { id: docRef.id });
-        // addDoc(collection(db, "messages"), {
-        //   chatId: docRef.id,
-        //   message:
-        //     "Hello i'm Islem medjahdi, I'm a computer science student in Algeria - Algiers, If you have any questions, let me know and don't forget to check my portfolio : https://islem-medjahdi-portfolio.vercel.app/",
-        //   sender: "rmbJQucAbjQvll9pV341OB8hxnx2",
-        //   type: "text",
-        //   createdAt: serverTimestamp(),
-        // }).then((docRef) => {
-        //   updateDoc(doc(db, "messages", docRef.id), {
-        //     messageId: docRef.id,
-        //   });
-        // });
-        // updateDoc(doc(db, "chats", docRef.id), {
-        //   updatedAt: serverTimestamp(),
-        //   message:
-        //     "Hello i'm Islem medjahdi, I'm a computer science student in Algeria - Algiers, If you have any questions, let me know and don't forget to check my portfolio : https://islem-medjahdi-portfolio.vercel.app/",
-        // });
-      });
+      setCanLogin(true);
+      // addDoc(collection(db, "chats"), {
+      //   createdAt: serverTimestamp(),
+      //   lastMessage: "",
+      //   updatedAt: serverTimestamp(),
+      //   userIds: [user.user.uid, "rmbJQucAbjQvll9pV341OB8hxnx2"],
+      //   id: "",
+      // }).then((docRef) => {
+      //   updateDoc(doc(db, "chats", docRef.id), { id: docRef.id });
+      //   // addDoc(collection(db, "messages"), {
+      //   //   chatId: docRef.id,
+      //   //   message:
+      //   //     "Hello i'm Islem medjahdi, I'm a computer science student in Algeria - Algiers, If you have any questions, let me know and don't forget to check my portfolio : https://islem-medjahdi-portfolio.vercel.app/",
+      //   //   sender: "rmbJQucAbjQvll9pV341OB8hxnx2",
+      //   //   type: "text",
+      //   //   createdAt: serverTimestamp(),
+      //   // }).then((docRef) => {
+      //   //   updateDoc(doc(db, "messages", docRef.id), {
+      //   //     messageId: docRef.id,
+      //   //   });
+      //   // });
+      //   // updateDoc(doc(db, "chats", docRef.id), {
+      //   //   updatedAt: serverTimestamp(),
+      //   //   message:
+      //   //     "Hello i'm Islem medjahdi, I'm a computer science student in Algeria - Algiers, If you have any questions, let me know and don't forget to check my portfolio : https://islem-medjahdi-portfolio.vercel.app/",
+      //   // });
+      // });
     })
     // .catch((e) => setError(e.code))
     // .finally(() => setLoading(false))
     ;
   };
-  const signInWithUser = (email: string, password: string) => {
-    console.log("signInUser");
-    console.log("email:"+email);
-    console.log("password:"+password);
-    signInWithEmailAndPassword(auth, email, password)
-      .catch((e) => createUser())
-      // .finally(() => setLoading(false))
-      ;
-  };
+
+  const loadUser = () => {
+    const unsub = onAuthStateChanged(auth, (currentUser) => {
+      console.log('check status');
+        console.log('is not loading');
+        if (currentUser) {
+          console.log('with currentUser');
+          getDoc(doc(db, "users", currentUser.uid)).then((res) => {
+            setUser({
+              uid: currentUser.uid,
+              email: currentUser.email,
+              birthday: res.data()?.birthday,
+              fName: res.data()?.fName,
+              lName: res.data()?.lName,
+              picture: res.data()?.picture,
+            });
+          });
+        }
+    });
+    return unsub;
+  }
   return (
     <div className="grid overflow-auto grid-cols-7 font-jakarta h-screen">
       {(openChat || windowWidth > 768) && (

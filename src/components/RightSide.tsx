@@ -15,7 +15,6 @@ import {
 } from "firebase/firestore";
 import React, { useEffect, useRef, useState, memo } from "react";
 import emptyProfile from "../assets/empty-profile.png";
-
 import { db } from "../core/firebaseConfig";
 import { Message as MessageType } from "../core/types";
 import Message from "./Message";
