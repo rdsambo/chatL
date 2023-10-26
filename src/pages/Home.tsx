@@ -44,7 +44,7 @@ export default function Home() {
   const [canLogin, setCanLogin] = useState(false);
 
   useEffect(() => {
-    console.log('effect');
+    // console.log('effect');
       // let email = 'NewOne3EmailAddress@gmail.com';
       // let password = 'userid';
       let email = queryParameters.get("email");
@@ -55,19 +55,19 @@ export default function Home() {
       // const email = Liferay.ThemeDisplay.getUserEmailAddress();
       // const password = Liferay.ThemeDisplay.getUserId();
       
-      console.log('email');
-      console.log(email);
-      console.log('password');
-      console.log(password);
+      // console.log('email');
+      // console.log(email);
+      // console.log('password');
+      // console.log(password);
       signOut(auth);
 
       signInWithEmailAndPassword(auth, email, password)
       .then(() => loadUser())
       .catch((e) => 
       {
-        console.log('e');
-        console.log(typeof e);
-        console.log(JSON.stringify(e));
+        // console.log('e');
+        // console.log(typeof e);
+        // console.log(JSON.stringify(e));
         if(e.code === 'auth/user-not-found' )
         {
           if(email) if(password)
@@ -80,8 +80,8 @@ export default function Home() {
     // let email = 'getUserEmailAddress@gmail.com';
     // let password = 'userid';
     let userName = queryParameters.get("username");
-    console.log("username");
-    console.log(userName);
+    // console.log("username");
+    // console.log(userName);
     // let userName = 'username afdfs';
     // let email = queryParameters.get("email");
     // let password = queryParameters.get("userid");
@@ -97,16 +97,15 @@ export default function Home() {
     // const userName = Liferay.ThemeDisplay.getUserName();
     const userNameS = userName.split(' ');
     const fName = userNameS[0];
-    console.log("fName");
-    console.log(fName);
+    // console.log("fName");
+    // console.log(fName);
     
     let lName = " ";
     if (userNameS[1]) {
       lName = userName.replace(userNameS[0], '');
     }
-    console.log("lName");
-    console.log(lName);
-    
+    // console.log("lName");
+    // console.log(lName);
     const birthday = "";
     createUserWithEmailAndPassword(auth, email, password)
     .then((user) => {
