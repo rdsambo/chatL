@@ -97,10 +97,16 @@ export default function Home() {
     // const userName = Liferay.ThemeDisplay.getUserName();
     const userNameS = userName.split(' ');
     const fName = userNameS[0];
+    console.log("fName");
+    console.log(fName);
+    
     let lName = " ";
     if (userNameS[1]) {
       lName = userName.replace(userNameS[0], '');
     }
+    console.log("lName");
+    console.log(lName);
+    
     const birthday = "";
     createUserWithEmailAndPassword(auth, email, password)
     .then((user) => {
