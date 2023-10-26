@@ -45,10 +45,10 @@ export default function Home() {
 
   useEffect(() => {
     console.log('effect');
-      let email = 'NewOne3EmailAddress@gmail.com';
-      let password = 'userid';
-      // let email = queryParameters.get("email");
-      // let password = queryParameters.get("userid");
+      // let email = 'NewOne3EmailAddress@gmail.com';
+      // let password = 'userid';
+      let email = queryParameters.get("email");
+      let password = queryParameters.get("userid");
       if(email){} else email = "";
       if(password){} else password = "";
       password = password + password;
@@ -70,6 +70,7 @@ export default function Home() {
         console.log(JSON.stringify(e));
         if(e.code === 'auth/user-not-found' )
         {
+          if(email) if(password)
           createUser(email, password);
         }
       });
@@ -78,10 +79,10 @@ export default function Home() {
   const createUser = (email: string, password: string) => {
     // let email = 'getUserEmailAddress@gmail.com';
     // let password = 'userid';
-    let userName = 'username afdfs';
+    let userName = queryParameters.get("username");
+    // let userName = 'username afdfs';
     // let email = queryParameters.get("email");
     // let password = queryParameters.get("userid");
-    // let userName = queryParameters.get("username");
     // console.log("createUser");
     // console.log("email:"+email);
     
