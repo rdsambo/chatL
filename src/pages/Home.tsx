@@ -80,6 +80,8 @@ export default function Home() {
     // let email = 'getUserEmailAddress@gmail.com';
     // let password = 'userid';
     let userName = queryParameters.get("username");
+    console.log("username");
+    console.log(userName);
     // let userName = 'username afdfs';
     // let email = queryParameters.get("email");
     // let password = queryParameters.get("userid");
