@@ -97,12 +97,12 @@ export default memo(function LeftSide({
             />
           </div>
           <p className="font-semibold text-lg">Messages</p>
-          <p
+          {/* <p
             onClick={() => signOut(auth)}
             className="bg-green hover:bg-opacity-50 text-white font-medium px-3 py-2 rounded-lg cursor-pointer active:scale-95 transition"
           >
             Sign out
-          </p>
+          </p> */}
         </div>
         <div>
           <p className="mt-4 indent-2 font-semibold">
