@@ -29,7 +29,7 @@ export default function Profile({ setOpen }: Props) {
           <img
             src={whatsappLogo}
             className="h-10 w-10 rounded-full pointer-events-none object-contain"
-            alt="whatsapp"
+            alt="INE-Chat"
           />
         </div>
         <p className="text-white font-semibold">WhatsApp</p>

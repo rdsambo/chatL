@@ -134,7 +134,7 @@ export default function Signup() {
           <div className="w-[30rem] blur-lg h-[30rem] bg-greenlight bg-opacity-25 absolute rounded-full" />
           <img
             src={whatsappscreen}
-            alt="whatsappscreen"
+            alt="inescreen"
             className="w-full object-contain pointer-events-none z-10"
           />
         </div>
@@ -143,7 +143,7 @@ export default function Signup() {
         <div>
           <img
             src={whatsapplogo}
-            alt="whatsapplogo"
+            alt="inelogo"
             className="w-28 pointer-events-none"
           />
         </div>
