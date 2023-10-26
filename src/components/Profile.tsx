@@ -32,7 +32,7 @@ export default function Profile({ setOpen }: Props) {
             alt="INE-Chat"
           />
         </div>
-        <p className="text-white font-semibold">WhatsApp</p>
+        <p className="text-white font-semibold">INE-Chat</p>
       </div>
       <div></div>
     </div>
