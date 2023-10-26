@@ -83,7 +83,7 @@ export default memo(function LeftSide({
     >
       <div className="sticky bg-white top-0">
         <div className="flex items-center justify-between pt-4 ">
-          <div
+          {/* <div
             onClick={() => {
               setSelectedChatRoom("");
               setOpen(false);
@@ -95,7 +95,7 @@ export default memo(function LeftSide({
               className="w-12 h-12 rounded-full pointer-events-none object-cover"
               alt="profile"
             />
-          </div>
+          </div> */}
           <p className="font-semibold text-lg">Messages</p>
           {/* <p
             onClick={() => signOut(auth)}
@@ -106,7 +106,6 @@ export default memo(function LeftSide({
         </div>
         <div>
           <p className="mt-4 indent-2 font-semibold">
-            You logged in as
             <span className="text-green hover:underline"> {displayName}</span>
           </p>
         </div>
@@ -130,7 +129,7 @@ export default memo(function LeftSide({
                   />
                 </svg>
                 <p className="font-semibold cursor-pointer  text-green">
-                  Add a new friend
+                  Add chat
                 </p>
               </div>
             }

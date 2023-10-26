@@ -74,9 +74,12 @@ export default memo(function RightSide({
           });
         });
       });
-      // dummyRef.current?.scrollIntoView({
-      //   behavior: "smooth",
-      // });
+      const el = dummyRef.current;
+      if(el)
+        if( el.scrollWidth > el.getBoundingClientRect().width)
+          dummyRef.current?.scrollIntoView({
+            behavior: "smooth",
+          });
     }
   };
   useEffect(() => {
