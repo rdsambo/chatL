@@ -34,6 +34,7 @@ export type chatRoom = {
   updatedAt: Timestamp;
   userIds: [string, string];
   lastMessage: string;
+  unreadCount: number;
 };
 
 export type Message = {
@@ -42,4 +43,5 @@ export type Message = {
   sender: string;
   type: string;
   createdAt: Timestamp;
+  isRead: boolean;
 };

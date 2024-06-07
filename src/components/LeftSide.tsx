@@ -2,6 +2,8 @@ import { signOut } from "firebase/auth";
 import { useEffect, useState, memo, useRef } from "react";
 import emptyProfile from "../assets/empty-profile.png";
 import { auth, db } from "../core/firebaseConfig";
+import { Message as MessageType } from "../core/types";
+
 import {
   collection,
   DocumentData,
@@ -66,7 +68,32 @@ export default memo(function LeftSide({
         (querySnapshot: QuerySnapshot<DocumentData>) => {
           const chatRooms: chatRoom[] = [];
           querySnapshot.forEach((doc: QueryDocumentSnapshot<DocumentData>) => {
-            chatRooms.push(doc.data() as chatRoom);
+            let chatRoom = doc.data();
+            const unreadCount: number[] = [0];
+            const q = query(
+              collection(db, "messages"),
+              where("chatId", "==", chatRoom.id),
+              orderBy("createdAt")
+            );
+            onSnapshot(
+              q,
+              (querySnapshot: QuerySnapshot<DocumentData>) => {
+                const messages: MessageType[] = [];
+                querySnapshot.forEach((doc: QueryDocumentSnapshot<DocumentData>) => {
+                  let message = doc.data();
+                  if (message.sender !== userId && !message.isRead){
+                    unreadCount[0] = unreadCount[0] + 1;
+                  }
+                  console.log('unreadCount[0]');
+                  console.log(unreadCount[0]);
+                  let newChatRooms = chatRooms.map(item => item.id == chatRoom.id ? {...item, unreadCount: unreadCount[0]} : item);
+                  setChatRooms(newChatRooms);
+                });
+                // setMessages(messages);
+              }
+            );
+
+            chatRooms.push({...chatRoom, unreadCount: unreadCount[0]} as chatRoom);
           });
           setChatRooms(chatRooms.reverse());
         }
@@ -191,6 +218,7 @@ export default memo(function LeftSide({
             }
             lastUpdate={(item.updatedAt && timeConverter(item.updatedAt)) || ""}
             lastMessage={item.lastMessage}
+            unreadCount={item.unreadCount}
             searchValue={searchValue.trim()}
           />
         ))}

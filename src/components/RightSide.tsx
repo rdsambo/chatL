@@ -61,6 +61,7 @@ export default memo(function RightSide({
         sender: userId,
         type: "text",
         createdAt: serverTimestamp(),
+        isRead: false,
       }).then((docRef) => {
         updateDoc(doc(db, "messages", docRef.id), {
           messageId: docRef.id,
@@ -94,7 +95,12 @@ export default memo(function RightSide({
         (querySnapshot: QuerySnapshot<DocumentData>) => {
           const messages: MessageType[] = [];
           querySnapshot.forEach((doc: QueryDocumentSnapshot<DocumentData>) => {
-            messages.push(doc.data() as MessageType);
+            let message = doc.data();
+            message = { ...message, isRead: true };
+            messages.push(message as MessageType);
+            if ('messageId' in message && message.sender !== userId){
+              markMessageAsRead(message.messageId);
+            }
           });
           setMessages(messages);
         }
@@ -102,6 +108,17 @@ export default memo(function RightSide({
       return unsubscribe;
     }
   }, [chatRoomId]);
+  function markMessageAsRead(messageId: any) {
+    const messageRef = doc(db, "messages", messageId); // Obtém a referência do documento
+    try {
+      updateDoc(messageRef, {
+        isRead: true
+      });
+      console.log("Documento atualizado com sucesso");
+    } catch (error) {
+      console.error("Erro ao atualizar o documento: ", error);
+    }
+  }
   useEffect(() => {
     if (chatRoomId) {
       setSelectedFriend({ email: "", fName: "", lName: "", picture: "" });

@@ -12,6 +12,7 @@ type Props = {
   lastMessage: string;
   searchValue: string;
   setOpen: (b: boolean) => void;
+  unreadCount: number;
 };
 
 type User = {
@@ -28,6 +29,7 @@ export default function MessageView({
   lastMessage,
   searchValue,
   setOpen,
+  unreadCount
 }: Props) {
   const [user, setUser] = useState<User>();
   const [loading, setLoading] = useState(false);
@@ -58,11 +60,18 @@ export default function MessageView({
       } hover:bg-green hover:bg-opacity-60 rounded-md px-2 py-1 cursor-pointer transition duration-200`}
     >
       <div className="h-5/6 flex items-center space-x-2">
-        <img
-          src={user?.picture || emptyProfile}
-          alt="profilePicture"
-          className="w-10 h-10 rounded-full object-cover "
-        />
+        <div className="relative">
+          <img
+            src={user?.picture || emptyProfile}
+            alt="profilePicture"
+            className="w-10 h-10 rounded-full object-cover "
+          />
+          {unreadCount > 0 && (
+            <span className="absolute top-0 right-0 bg-red-500 font-bold text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
+              {unreadCount}
+            </span>
+          )}
+        </div>
         <div>
           <p className="font-bold text-gray-800">
             {loading ? "..." : user?.name}
