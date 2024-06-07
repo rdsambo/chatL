@@ -1,6 +1,6 @@
-import { signOut } from "firebase/auth";
 import { useEffect, useState, memo, useRef } from "react";
-import emptyProfile from "../assets/empty-profile.png";
+import NotificationSound from "./notification-sound.mp3";
+
 import { auth, db } from "../core/firebaseConfig";
 import { Message as MessageType } from "../core/types";
 
@@ -56,6 +56,15 @@ export default memo(function LeftSide({
   const [searchValue, setSearchValue] = useState("");
   const [chatRooms, setChatRooms] = useState<chatRoom[]>();
   const refPopup = useRef<PopupActions>(null);
+  const audioPlayer = useRef(null);
+
+  function playAudio() {
+    // @ts-ignore
+    audioPlayer.current.play().catch((error) => {
+      console.error("Falha ao tocar o som:", error);
+    });
+  }
+  
   useEffect(() => {
     if (userId) {
       const q = query(
@@ -84,9 +93,12 @@ export default memo(function LeftSide({
                   if (message.sender !== userId && !message.isRead){
                     unreadCount[0] = unreadCount[0] + 1;
                   }
-                  console.log('unreadCount[0]');
-                  console.log(unreadCount[0]);
+                  // console.log('unreadCount[0]');
+                  // console.log(unreadCount[0]);
                   let newChatRooms = chatRooms.map(item => item.id == chatRoom.id ? {...item, unreadCount: unreadCount[0]} : item);
+                  if(unreadCount[0] > 0){
+                    playAudio()
+                  }
                   setChatRooms(newChatRooms);
                 });
                 // setMessages(messages);
@@ -101,7 +113,8 @@ export default memo(function LeftSide({
       return unsubscribe;
     }
   }, [userId]);
-  return (
+  return (<>
+    <audio ref={audioPlayer} src={NotificationSound} />
     <motion.div
       initial={{ x: "-100vh" }}
       animate={{ x: 0 }}
@@ -224,5 +237,6 @@ export default memo(function LeftSide({
         ))}
       </div>
     </motion.div>
+  </>
   );
 });
