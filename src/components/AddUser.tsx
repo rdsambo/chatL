@@ -62,19 +62,29 @@ export default function AddUser({ userId, closePopup }: Props) {
     setLoading(true);
     const q = query(
       collection(db, "users"),
-      where("search", "array-contains", search.toLowerCase())
+      where("search", "!=", null) // Obtenha todos os documentos onde 'search' não é nulo
     );
+    
+    // const querySnapshot = await getDocs(q);    
+    // const q = query(
+    //   collection(db, "users"),
+    //   where("search", "array-contains", search.toLowerCase())
+    // );
     getDocs(q)
       .then((querySnapshot: QuerySnapshot<DocumentData>) => {
         const searchResult: TypeSearchResult[] = [];
         querySnapshot.forEach((doc: QueryDocumentSnapshot<DocumentData>) => {
-          searchResult.push({
-            email: doc.data().email,
-            fName: doc.data().fName,
-            lName: doc.data().lName,
-            picture: doc.data().picture,
-            uid: doc.data().uid,
-          });
+          const data = doc.data();
+          if(doc.id != userId)
+          if (data.search.some((s: string) => s.includes(search.toLowerCase()))) {
+            searchResult.push({
+              email: doc.data().email,
+              fName: doc.data().fName,
+              lName: doc.data().lName,
+              picture: doc.data().picture,
+              uid: doc.data().uid,
+            });
+          }
         });
         setSearchResult(searchResult);
       })
