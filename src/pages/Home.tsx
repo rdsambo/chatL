@@ -45,10 +45,10 @@ export default function Home() {
 
   useEffect(() => {
     // console.log('effect');
-      // let email = 'NewOne3EmailAddress@gmail.com';
-      // let password = 'userid';
-      let email = queryParameters.get("email");
-      let password = queryParameters.get("userid");
+      let email = 'NewOne3EmailAddress@gmail.com';
+      let password = 'userid';
+      // let email = queryParameters.get("email");
+      // let password = queryParameters.get("userid");
       if(email){} else email = "";
       if(password){} else password = "";
       password = password + password;

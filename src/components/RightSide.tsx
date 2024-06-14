@@ -21,7 +21,7 @@ import Message from "./Message";
 import Profile from "./Profile";
 import ChatHeader from "./ChatHeader";
 import MessageForm from "./MessageForm";
-import background from "../assets/ine_background.png"
+import background from "../assets/background.png"
 
 type Props = {
   chatRoomId: string;
@@ -148,7 +148,7 @@ export default memo(function RightSide({
   }
   return (
     <div
-      className="col-span-7 bg-repeat !bg-opacity-5 overflow-auto md:col-span-4 xl:col-span-5 bg-gray-100 flex-col min-h-screen flex justify-between"
+      className="col-span-7 bg-cover !bg-opacity-5 overflow-auto md:col-span-4 xl:col-span-5 bg-gray-100 flex-col min-h-screen flex justify-between"
       style={{
         backgroundImage: `url(${background})`,
       }}
